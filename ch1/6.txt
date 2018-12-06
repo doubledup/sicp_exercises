@@ -1,0 +1,21 @@
+```
+(define (new-if predicate then-clause else-clause)
+  (cond (predicate then-clause)
+        (else else-clause)))
+
+(define (sqrt-iter guess x)
+  (new-if (good-enough? guess x)
+          guess
+          (sqrt-iter (improve guess x)
+                     x)))
+```
+
+`sqrt-iter` will never terminate. Since Scheme uses applicative order
+evaluation, it will attempt to evaluate all of the arguments to `new-if` before
+applying `new-if`.  The 3rd argument, however, is another call to `sqrt-iter`.
+This also has to evaluate a `new-if` call that has a call to `sqrt-iter` as its
+3rd argument.
+
+Because of applicative-order evaluation and `new-if` being a regular function,
+to evaluate any call to `sqrt-iter`, the interpreter has to evaluate a call to
+`sqrt-iter`. This circular evaluation prevents the program from terminating.
