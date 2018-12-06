@@ -1,0 +1,2 @@
+- Is there a difference between normal order & lazy evaluation?
+- Does dynamic scoping prevent a language from guaranteeing all functions are pure?
