@@ -64,7 +64,8 @@ than 0.001. This is just because it's the first guess we find that's within
 
 ________________________________________________________________________________
 
-Here we use an updated version of `improve` to show the intermediate guesses:
+For this section we use an updated version of `improve` to show the intermediate
+guesses:
 
 ```
 (define (improve guess x)
@@ -101,24 +102,141 @@ large floating point number less than 2**43:
 powers of 2, leaving only 9 digits for negative powers, which isn't enough to
 represent 2**-10.
 
-Without at least 10 digits for negative powers of 2, the subtraction in our
-`good-enough?` function can only produce either 0 or at least 2**-9: we can't
-represent a number in between.  If the subtraction gives us 0, we consider the
-guess good enough and our program halts. If it doesn't give us 0, we try to
-improve it. Either the improvements eventually give us 0 for our subtraction
-(so that our guess is good enough), or we end up getting the same number back
-from `improve` (we find a fixed point of improve) that still gives us a
-non-zero difference, and our program never halts.
+Without at least 10 binary digits for negative powers of 2, the subtraction in
+our `good-enough?` function can only produce either 0 or at least 2**-9: we
+can't represent a number in between.  If the subtraction in `good-enough?`
+gives us 0, we consider the guess good enough and our program halts. If it
+doesn't give us 0, we try to improve it. Either the improvements eventually
+give us 0 for our subtraction (so that our guess is good enough), or we end up
+getting the same number back from `improve` (we find a fixed point of
+`improve`) that still gives us a non-zero difference. In this case, our program
+never halts as we improve the guess, get the same number back, see that it's
+not good enough and try to improve it again:
 
-Once the square of our guess is large enough or the guess is a fixed point of
-`improve` and its square is more than 0.001 from x, we loop infinitely. The
-square of our guess is too far from x and we don't have enough precision for
-`improve` to bring it closer.
+```
+> (square (sqrt (- (expt 2.0 43) 1)))
+1.0
+4398046511104.0
+2199023255553.0
+1099511627778.5
+549755813893.25
+274877906954.625
+137438953493.3125
+68719476778.65625
+34359738453.328125
+17179869354.664062
+8589934933.33203
+4294967978.665995
+2147485013.3328347
+1073744554.6651154
+536876373.322141
+268446378.5777382
+134239572.622235
+67152548.97882563
+33641767.85605315
+16951615.65799754
+8735254.869318409
+4871109.768821101
+3338438.7691578055
+2986615.573400723
+2965893.194167331
+2965820.8016412044
+8796093022206.999
+> (square (sqrt (expt 2.0 43)))
+1.0
+4398046511104.5
+2199023255553.25
+1099511627778.625
+549755813893.3125
+274877906954.65625
+137438953493.32812
+68719476778.66406
+34359738453.33203
+17179869354.666016
+8589934933.333006
+4294967978.666483
+2147485013.333079
+1073744554.6652374
+536876373.3222021
+268446378.57776874
+134239572.62225026
+67152548.97883326
+33641767.856056966
+16951615.65799945
+8735254.869319363
+4871109.768821579
+3338438.769158059
+2986615.573400899
+2965893.1941674994
+2965820.801641373
+2965820.8007578608
+2965820.8007578608
+...
+(doesn't halt)
+> (square (sqrt (- (expt 2.0 44) 1)))
+1.0
+8796093022208.0
+4398046511105.0
+2199023255554.5
+1099511627781.25
+549755813898.625
+274877906965.3125
+137438953514.65625
+68719476821.32812
+34359738538.66406
+17179869525.33203
+8589935274.666006
+4294968661.332922
+2147486378.66581
+1073747285.3276968
+536881834.622182
+268457300.9777658
+134261415.82247663
+67196222.58623502
+33729012.89269655
+17125293.59271959
+9076278.459057067
+5507269.150110688
+4350813.2824062845
+4197119.0088142585
+4194304.944013454
+4194303.999999987
+17592186044415.0
+> (square (sqrt (expt 2.0 44)))                                                               1.0
+8796093022208.5
+4398046511105.25
+2199023255554.625
+1099511627781.3125
+549755813898.6562
+274877906965.3281
+137438953514.66406
+68719476821.33203
+34359738538.666016
+17179869525.333008
+8589935274.666494
+4294968661.333166
+2147486378.665932
+1073747285.3277578
+536881834.6222125
+268457300.97778106
+134261415.82248425
+67196222.58623883
+33729012.89269846
+17125293.592720542
+9076278.459057543
+5507269.150110931
+4350813.282406426
+4197119.008814378
+4194304.944013573
+4194304.000000106
+17592186044416.0
+```
 
-\* really 1/1024, but that's a fairly good approximation, as the next digit is
-2**-16, or 1/65536
+Size alone is not enough to make the sqrt function loop infinitely. Rather, it
+becomes more likely that `sqrt` won't terminate when x is larger, as we have
+less precision in our `good-enough?` procedure.
 
-12345678901234 doesn't terminate, as successive applications of improve lead to
+eg. 12345678901234 doesn't terminate, as successive applications of improve lead to
 a fixed point of improve whose square is greater than 0.001 from 12345678901234:
 
 ```
@@ -152,9 +270,13 @@ a fixed point of improve whose square is greater than 0.001 from 12345678901234:
 3513641.8288200637
 3513641.8288200637
 ...
+(doesn't halt)
 > (square 3513641.8288200637)
 12345678901234.002
 ```
+
+\* really 1/1024, but that's a fairly good approximation, as the next digit is
+2**-16, or 1/65536
 
 ________________________________________________________________________________
 
