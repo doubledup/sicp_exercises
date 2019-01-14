@@ -64,7 +64,7 @@ than 0.001. This is just because it's the first guess we find that's within
 
 ________________________________________________________________________________
 
-For this section we use an updated version of `improve` to show the intermediate
+From here on we use an updated version of `improve` to show the intermediate
 guesses:
 
 ```
@@ -202,7 +202,8 @@ not good enough and try to improve it again:
 4194304.944013454
 4194303.999999987
 17592186044415.0
-> (square (sqrt (expt 2.0 44)))                                                               1.0
+> (square (sqrt (expt 2.0 44)))
+1.0
 8796093022208.5
 4398046511105.25
 2199023255554.625
@@ -453,7 +454,36 @@ For large numbers, `new-sqrt` doesn't have the same issues with halting:
 4194304.944013573
 4194304.000000106
 17592186044416.0
+> (new-sqrt 12345678901234.0)
+1.0
+6172839450617.5
+3086419725309.75
+1543209862656.875
+771604931332.4375
+385802465674.21875
+192901232853.10938
+96450616458.55469
+48225308293.27734
+24112654274.63867
+12056327393.319334
+6028164208.659653
+3014083128.3297105
+1507043612.1639276
+753525902.074542
+376771142.9778979
+188401955.01397642
+94233741.7076047
+47182376.47141617
+23722017.581583798
+12121224.408177208
+6569870.942541849
+4224503.311279173
+3573450.5222935397
+3514142.3366335463
+3513641.86446291
+3513641.8288200637
 ```
 
-This doesn't mean that `new-sqrt` always halts, just that it halts in some of
-the cases where `sqrt` doesn't.
+The calculations for 2**43 and 12345678901234.0 now halt. Note that this
+doesn't mean that `new-sqrt` always halts, just that it halts in some of the
+cases where `sqrt` doesn't.
