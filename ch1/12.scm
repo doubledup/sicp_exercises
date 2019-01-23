@@ -1,3 +1,6 @@
+; the procedures pascal-layer and pascal-rec both produce recursive processes
+; the procedures pascal-iter and pascal produce iterative processes
+
 (define (pascal-layer n)
   (if (= 0 n)
       '(1)
@@ -23,9 +26,9 @@
 (define (range a b)
   (range-iter a b '()))
 ; (range 0 5)
-(define (pascal-slow n)
+(define (pascal-rec n)
   (map pascal-layer (range 0 n)))
-; (pascal-slow 300)
+; (pascal-rec 300)
 
 (define (next-layer prev-layer)
   (append
