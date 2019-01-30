@@ -1,0 +1,112 @@
+\documentclass{minimal}
+\usepackage{amsmath}
+\begin{document}
+Let $\psi = \frac{1 - \sqrt{5}}{2}$ and
+\begin{math}
+  Fib(n) = 
+    \begin{cases}
+      0 & \text{if n = 0}\\
+      1 & \text{if n = 1}\\
+      Fib(n-1) + Fib(n-2) & \text{otherwise}
+    \end{cases}
+\end{math}
+
+% TODO: prove the hint here
+
+$Fib(n) = \frac{\phi^n - \psi^n}{\sqrt{5}}$:
+
+When $n = 0$, $Fib(0) = 0$ and $\frac{\phi^0 - \psi^0}{\sqrt{5}} =
+\frac{1 - 1}{\sqrt{5}} = 0$.
+
+When $n = 1$, $Fib(1) = 1$ and
+\begin{eqnarray*}
+  \frac{\phi^1 - \psi^1}{\sqrt{5}} &=& \frac{\frac{1 + \sqrt{5} - (1 - \sqrt{5})}{2}}{\sqrt{5}}
+                                \\ &=& \frac{2\sqrt{5}}{2\sqrt{5}}
+                                \\ &=& 1
+\end{eqnarray*}
+
+Assuming $Fib(n) = \frac{\phi^n - \psi^n}{\sqrt{5}}$ and $Fib(n+1) =
+\frac{\phi^{n+1} - \psi^{n+1}}{\sqrt{5}}$ for some $n$,
+\begin{eqnarray*}
+  Fib(n+2) &=& Fib(n+1) + Fib(n)
+        \\ &=& \frac{\phi^{n+1} - \psi^{n+1}}{\sqrt{5}} + \frac{\phi^n - \psi^n}{\sqrt{5}}
+        \\ &=& \frac{\phi^n(\phi+1) - \psi^n(\psi+1)}{\sqrt{5}}
+        \\ &=& \frac{\phi^n\phi^2 - \psi^n\psi^2}{\sqrt{5}}
+        \text{($\phi$ by definition, see below for $\psi$)}
+        \\ &=& \frac{\phi^{n+2} - \psi^{n+2}}{\sqrt{5}}
+\end{eqnarray*}
+
+$\psi^2 = \psi+1$:
+\begin{eqnarray*}
+  \psi^2 &=& \left(\frac{1-\sqrt{5}}{2}\right)^2
+      \\ &=& \frac{1-2\sqrt{5}+5}{4}
+      \\ &=& \frac{3-\sqrt{5}}{2}
+      \\ &=& \frac{1-\sqrt{5}}{2} + 1
+      \\ &=& \psi + 1
+\end{eqnarray*}
+
+% TODO: prove the hint here
+
+Let $F_k(n) = d(Fib(n)+ k, \frac{\phi^n}{\sqrt{5}})$. Then we have
+\begin{eqnarray*}
+  F_0(n) = d(Fib(n), \frac{\phi^n}{\sqrt{5}}) &=& \left|Fib(n) - \frac{\phi^n}{\sqrt{5}}\right|
+  \\ &=& \left|\frac{\phi^n - \psi^n - \phi^n}{\sqrt{5}}\right|
+  \\ &=& \left|\frac{\psi^n}{\sqrt{5}}\right|
+  \\ F_1(n) = d(Fib(n) + 1, \frac{\phi^n}{\sqrt{5}}) &=& \left|\frac{\psi^n}{\sqrt{5}} + 1\right|
+  \\ F_{-1}(n) = d(Fib(n) - 1, \frac{\phi^n}{\sqrt{5}}) &=& \left|\frac{\psi^n}{\sqrt{5}} - 1\right|
+\end{eqnarray*}
+
+When $n = 0$:
+\begin{eqnarray*}
+  d(F_0(0), 0) = \left|\left|\frac{\psi^0}{\sqrt{5}}\right| - 0\right| &=& \frac{1}{\sqrt{5}}
+  \\ d(F_1(0), 1) = \left|\left|\frac{\psi^0}{\sqrt{5}} + 1\right| - 1\right| &=& \frac{1}{\sqrt{5}}
+  \\ d(F_{-1}(0), 1) = \left|\left|\frac{\psi^0}{\sqrt{5}} - 1\right| - 1\right| &=& \frac{1}{\sqrt{5}}
+\end{eqnarray*}
+
+% Since $\frac{1}{\sqrt{5}} < 1 + \frac{1}{\sqrt{5}}$ and $\frac{1}{\sqrt{5}} < 1
+% - \frac{1}{\sqrt{5}}$ (as $\frac{1}{\sqrt{5}} < \frac{1}{2}$), we have that
+% $F_0(0) < F_1(0)$ and $F_0(0) < F_{-1}(0)$.
+
+% Assuming that $F_0(n) < F_1(n)$ and $F_0(n) < F_{-1}(n)$ for some $n$:
+
+% \begin{eqnarray*}
+%   F_0(n+1) &=& \left|\frac{\psi^{n+1}}{\sqrt{5}}\right|
+%   \\ &=& \left|\psi\cdot\frac{\psi^{n}}{\sqrt{5}}\right|
+%   \\ &<& 
+% \end{eqnarray*}
+
+$d(F_0, 0)$, $d(F_1, 1)$ and $d(F_{-1}, 1)$ are monotonically decreasing for all $n$:
+
+\begin{eqnarray*}
+  d(F_0(n), 0) &=& \left|\left|\frac{\psi^n}{\sqrt{5}}\right| - 0\right|
+            \\ &=& \left|\frac{\psi^n}{\sqrt{5}}\right|
+            \\ &>& \left|\frac{\psi^{n+1}}{\sqrt{5}}\right| \text{(since $\psi \in (0,1) \implies \psi^{n+1} < \psi^n$)}
+            \\ &=& d(F_0(n+1), 0)
+\end{eqnarray*}
+
+\begin{eqnarray*}
+  d(F_1(n), 1) &=& \left|\left|\frac{\psi^n}{\sqrt{5}} + 1\right| - 1\right|
+            \\ &=& \left|\frac{\psi^n}{\sqrt{5}} + 1 - 1\right| \text{(since $\psi \in (0,1) \implies \frac{\psi^{n+1}}{\sqrt{5}} < \frac{\psi^n}{\sqrt{5}} < \frac{\psi^0}{\sqrt{5}} = \frac{1}{\sqrt{5}} < 1$)}
+            \\ &=& \left|\frac{\psi^n}{\sqrt{5}}\right|
+            \\ &>& \left|\frac{\psi^{n+1}}{\sqrt{5}}\right| \text{(since $\psi \in (0,1) \implies \psi^{n+1} < \psi^n$)}
+            \\ &=& \left|\left|\frac{\psi^{n+1}}{\sqrt{5}} + 1\right| - 1\right| \text{(since $\psi \in (0,1) \implies \frac{\psi^{n+1}}{\sqrt{5}} < \frac{\psi^n}{\sqrt{5}} < \frac{\psi^0}{\sqrt{5}} = \frac{1}{\sqrt{5}} < 1$)}
+            \\ &=& d(F_1(n+1), 1)
+\end{eqnarray*}
+
+\begin{eqnarray*}
+  d(F_{-1}(n), 1) &=& \left|\left|\frac{\psi^n}{\sqrt{5}} - 1\right| - 1\right|
+            \\ &=& \left|1 - \frac{\psi^n}{\sqrt{5}} - 1\right| \text{(since $\psi \in (0,1) \implies \frac{\psi^{n+1}}{\sqrt{5}} < \frac{\psi^n}{\sqrt{5}} < \frac{\psi^0}{\sqrt{5}} = \frac{1}{\sqrt{5}} < 1$)}
+            \\ &=& \left|\frac{\psi^n}{\sqrt{5}}\right|
+            \\ &>& \left|\frac{\psi^{n+1}}{\sqrt{5}}\right| \text{(since $\psi \in (0,1) \implies \psi^{n+1} < \psi^n$)}
+            \\ &=& \left|\left|\frac{\psi^{n+1}}{\sqrt{5}} - 1\right| - 1\right| \text{(since $\psi \in (0,1) \implies \frac{\psi^{n+1}}{\sqrt{5}} < \frac{\psi^n}{\sqrt{5}} < \frac{\psi^0}{\sqrt{5}} = \frac{1}{\sqrt{5}} < 1$)}
+            \\ &=& d(F_1(n+1), 1)
+\end{eqnarray*}
+
+Since $d(F_0(0), 0) = \frac{1}{\sqrt{5}} = d(F_1(0), 1) = d(F_{-1}(0), 1)$ we
+know that $Fib(n)$ is closer to $\frac{\phi^n}{\sqrt{5}}$ than either
+$Fib(n)+1$ or $Fib(n)-1$ when $n = 0$. Also, since $d(F_0(n), 0)$, $d(F_1(n),
+1)$ and $d(F_{-1}(n), 1)$ are all decreasing, the distance between $Fib(n)$ and
+$\frac{\phi^n}{\sqrt{5}}$ is decreasing towards $0$, while the distances
+between either $Fib(n)+1$ or $Fib(n)-1$ and $\frac{\phi^n}{\sqrt{5}}$ are
+decreasing towards 1.
+\end{document}

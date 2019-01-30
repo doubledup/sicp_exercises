@@ -5,3 +5,10 @@
 *.scm~
 *.scm#*
 .#*.scm
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
