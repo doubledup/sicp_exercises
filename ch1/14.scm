@@ -1,8 +1,8 @@
 (define (count-change amount)
   (cc amount 5))
 (define (cc amount kinds-of-coins)
-  (cond ((= amount 0) 1)
-        ((or (< amount 0) (= kinds-of-coins 0)) 0)
+  (cond ((= amount 0) (begin (display "x") 1))
+        ((or (< amount 0) (= kinds-of-coins 0)) (begin (display "x") 0))
         (else (+ (cc amount
                      (- kinds-of-coins 1))
                  (cc (- amount
@@ -14,5 +14,12 @@
         ((= kinds-of-coins 3) 10)
         ((= kinds-of-coins 4) 25)
         ((= kinds-of-coins 5) 50)))
+(define (range-iter a b l)
+  (if (> a b)
+      l
+      (range-iter a (- b 1) (cons b l))))
+(define (range a b)
+  (range-iter a b '()))
 
+(map (lambda (x) (begin (count-change x) (display "\n"))) (range 1 30))
 (count-change 11)
