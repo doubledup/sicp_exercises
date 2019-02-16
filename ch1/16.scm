@@ -4,12 +4,12 @@
         (else (* b (fast-expt-old b (- n 1))))))
 
 (define (fast-expt b n)
-  (cond ((= n 0) 1)
-        ((= n 1) b)
-        (else (fast-expt-iter b (- n 1) b))))
+  (if (= n 0)
+      1
+      (fast-expt-iter b n 1)))
 
 (define (fast-expt-iter b n p)
-  (cond ((= n 1) (* b p))
+  (cond ((= n 0) p)
         ((even? n) (fast-expt-iter (square b) (/ n 2) p))
         (else (fast-expt-iter b (- n 1) (* b p)))))
 
