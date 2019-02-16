@@ -1,0 +1,60 @@
+\documentclass{minimal}
+\usepackage{amsmath}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+
+\begin{document}
+\afterpage{\begin{landscape}
+Normal-order evaluation:
+
+\begin{eqnarray*}
+&& \text{(gcd 206 40)}
+\\ &=& \text{(gcd 40 (remainder 206 40))}
+\\ &=& \text{(if (= \textbf{(remainder 206 40)} 0) 40 (gcd (remainder 206 40) (remainder 40 (remainder 206 40))))}
+\\ &=& \text{(if (= 6 0) a (gcd (remainder 206 40) (remainder 40 (remainder 206 40))))}
+\\ &=& \text{(gcd (remainder 206 40) \textbf{(remainder 40 (remainder 206 40))})}
+\\ &=& \text{(gcd (remainder 40 (remainder 206 40))}
+\\ && \indent \textbf{(remainder (remainder 206 40) (remainder 40 (remainder 206 40))))}
+\\ &=& \text{(gcd (remainder (remainder 206 40) (remainder 40 (remainder 206 40)))}
+\\ && \indent \textbf{(remainder (remainder 40 (remainder 206 40))}
+\\ && \indent\indent\indent\indent \textbf{(remainder (remainder 206 40) (remainder 40 (remainder 206 40)))))}
+\\ &=& \textbf{(remainder (remainder 206 40) (remainder 40 (remainder 206 40)))}
+\\ &=& \text{(remainder 6 (remainder 40 6))}
+\\ &=& \text{(remainder 6 4)}
+\\ &=& \text{2}
+\end{eqnarray*}
+
+Applicative-order evaluation:
+
+\begin{eqnarray*}
+&& \text{(gcd 206 40)}
+\\ &=& \text{(gcd 40 \textbf{(remainder 206 40)})}
+\\ &=& \text{(gcd 40 6)}
+\\ &=& \text{(gcd 6 \textbf{(remainder 40 6)})}
+\\ &=& \text{(gcd 6 4)}
+\\ &=& \text{(gcd 4 \textbf{(remainder 6 4)})}
+\\ &=& \text{(gcd 4 2)}
+\\ &=& \text{(gcd 2 \textbf{(remainder 4 2)})}
+\\ &=& \text{(gcd 2 0)}
+\\ &=& \text{2}
+\end{eqnarray*}
+
+When evaluating (gcd 206 40), normal-order evaluation performs 17 remainder
+operations, while applicative-order evaluation performs 4 remainder operations.
+
+This is because normal-order evaluation evaluates expressions when their values
+are needed and gcd needs to check the value of its second argument in the if
+statement's condition. This argument is usually a remainder operation (from the
+recursive calls to gcd), so this operation has to be performed before the
+normal order evaluation can know what to replace the call to gcd with (either
+$a$ or another call to gcd). However, this evaluation is only used for the
+outcome of the if staement: the resulting calls to gcd accrue more and more
+remainder operations in their first argument, with none of them being evaluated
+until their second argument is 0.
+
+With applicative-order evaluation, the remainder operations are performed
+before the next call to gcd, instead of happening because the call to gcd
+requires their value.
+
+\end{landscape}}
+\end{document}
