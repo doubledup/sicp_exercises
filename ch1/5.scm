@@ -14,6 +14,4 @@
 
 ; With an interpreter that uses normal-order evaluation, Ben will get the result
 ; 0. This is because the procedure `test` gets expanded first (before the
-; argument `(p)`), then its if expression returns 0.
-; The operand `(p)` wouldn't be evaluated, as `test` gets expanded first and it
-; turns out that the value of `(p)`, the second argument to `test`, isn't needed.
+; argument `(p)`) and its if statement returns 0.
