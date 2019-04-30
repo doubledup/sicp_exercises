@@ -39,7 +39,6 @@
 ; must have i > 0 and (car l) a list of numbers
 (define (pascal-iter n i l)
   (cond ((> i n) (reverse l))
-        ((= i 0) '(1))
         (else (pascal-iter n (+ i 1) (cons (next-layer (car l)) l)))))
 (define (pascal n)
   (if (= n 0)
