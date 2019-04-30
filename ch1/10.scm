@@ -26,10 +26,12 @@
 ; 2 * n
 
 (define (g n) (A 1 n))
-; 2 ** n
+; 0      if n = 0
+; 2 ** n otherwise
 
 (define (h n) (A 2 n))
-; 2         if n = 1
+; 0             if n = 0
+; 2             if n = 1
 ; 2 ** h(n - 1) otherwise
 
 (define (k n) (* 5 n n))
